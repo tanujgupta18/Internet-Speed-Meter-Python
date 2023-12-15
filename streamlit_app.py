@@ -2,16 +2,24 @@ import streamlit as st
 import speedtest
 
 def speedcheck():
-    st.write("Testing internet speed... Please wait.")
+    st.sidebar.text("Checking speed...")
     sp = speedtest.Speedtest()
     sp.get_servers()
-    download_speed = sp.download() / 1_000_000  # Convert to Mbps
-    upload_speed = sp.upload() / 1_000_000  # Convert to Mbps
-    st.write(f"Download Speed: {download_speed:.3f} Mbps")
-    st.write(f"Upload Speed: {upload_speed:.3f} Mbps")
+    down = str(round(sp.download() / (10**6), 3)) + " Mbps"
+    up = str(round(sp.upload() / (10**6), 3)) + " Mbps"
+    lab_down.text(down)
+    lab_up.text(up)
+    st.sidebar.text("Speed check complete.")
 
 st.title("Internet Speed Test")
-st.markdown("### Download and Upload Speed Test")
 
+st.subheader("Download Speed")
+lab_down = st.empty()
+
+# Upload Speed Section
+st.subheader("Upload Speed")
+lab_up = st.empty()
+
+# Check Speed Button
 if st.button("Check Speed"):
     speedcheck()
